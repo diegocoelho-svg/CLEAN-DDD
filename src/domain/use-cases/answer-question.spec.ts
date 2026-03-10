@@ -3,9 +3,7 @@ import type { AnswersRepository } from '@/domain/repositories/answers-repository
 import type { Answer } from '@/domain/entities/answer.js'
 
 const fakeAnswersRepository: AnswersRepository = {
-  create: async (answer: Answer) => {
-    return;
-  }
+  create: async (answer: Answer) => {},
 }
 
 test('create an answer', async () => {

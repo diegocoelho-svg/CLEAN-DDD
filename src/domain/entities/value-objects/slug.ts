@@ -7,15 +7,15 @@ export class SlugVO {
 
   /**
    * Receives a string and normalize it as a slug.
-   * 
+   *
    * Example: "An example title" => "an-example-title"
-   * 
+   *
    * @param text {string}
    */
 
-  static createFromText(text:string) {
+  static createFromText(text: string) {
     const slugText = text
-      .normalize("NFKD")
+      .normalize('NFKD')
       .toLowerCase()
       .trim()
       .replace(/\s+/g, '-')
