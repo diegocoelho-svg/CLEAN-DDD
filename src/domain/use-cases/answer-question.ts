@@ -6,7 +6,7 @@ interface AnswerQuestionUseCaseRequest {
   instructorId: string
   questionId: string
   content: string
-  createdAt: Date
+  createdAt?: Date
 }
 
 export class AnswerQuestionUseCase {
