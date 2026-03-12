@@ -1,4 +1,4 @@
-import { SlugVO } from '@/domain/entities/value-objects/slug.js'
+import { SlugVO } from '@/domain/forum/enterprise/entities/value-objects/slug.js'
 import { Entity } from '@/core/entities/entity.js'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
 import type { Optional } from '@/core/types/optional.js'

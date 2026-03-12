@@ -1,6 +1,7 @@
-import { AnswerQuestionUseCase } from '@/domain/use-cases/answer-question.js'
-import type { AnswersRepository } from '@/domain/repositories/answers-repository.js'
-import type { Answer } from '@/domain/entities/answer.js'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question.js'
+import type { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js'
+import type { Answer } from '@/domain/forum/enterprise/entities/answer.js'
 
 const fakeAnswersRepository: AnswersRepository = {
   create: async (answer: Answer) => {},
