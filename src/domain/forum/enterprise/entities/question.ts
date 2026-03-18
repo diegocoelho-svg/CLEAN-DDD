@@ -10,7 +10,7 @@ interface QuestionProps {
   content: string
   slug: SlugVO
   createdAt: Date
-  bestAnswerId: UniqueEntityId | undefined
+  bestAnswerId?: UniqueEntityId | undefined
   updatedAt?: Date
 }
 export class Question extends Entity<QuestionProps> {
