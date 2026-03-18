@@ -1,20 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question.js'
-import type { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js'
-import type { Answer } from '@/domain/forum/enterprise/entities/answer.js'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js'
+import { AnswerQuestionUseCase } from './answer-question.js'
 
-const fakeAnswersRepository: AnswersRepository = {
-  create: async (answer: Answer) => {},
-}
+// sut -> SYSTEM UNDER TEST
 
-test('create an answer', async () => {
-  const answerQuestion = new AnswerQuestionUseCase(fakeAnswersRepository)
+let inMemoryAnswersRepository: InMemoryAnswersRepository
+let sut: AnswerQuestionUseCase
 
-  const answer = await answerQuestion.execute({
-    questionId: '1',
-    instructorId: '1',
-    content: 'Nova Resposta',
+describe('Create Question', () => {
+  beforeEach(() => {
+    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
 
-  expect(answer.content).toEqual('Nova Resposta')
+  it('should be able to create an answer', async () => {
+    const { answer } = await sut.execute({
+      questionId: '1',
+      instructorId: '1',
+      content: 'Content Answer '
+    })
+
+    expect(answer.id).toBeTruthy()
+    expect(inMemoryAnswersRepository.items[0]?.id).toEqual(answer.id)
+  })
 })

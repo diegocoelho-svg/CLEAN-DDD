@@ -6,7 +6,10 @@ interface AnswerQuestionUseCaseRequest {
   instructorId: string
   questionId: string
   content: string
-  createdAt?: Date
+}
+
+interface AnswerQuestionUseCaseResponse {
+  answer: Answer
 }
 
 export class AnswerQuestionUseCase {
@@ -25,6 +28,8 @@ export class AnswerQuestionUseCase {
 
     await this.answersRepository.create(answer)
 
-    return answer
+    return {
+      answer
+    }
   }
 }
