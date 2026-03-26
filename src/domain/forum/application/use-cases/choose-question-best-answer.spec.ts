@@ -1,9 +1,9 @@
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js'
 import { makeAnswer } from 'test/factories/make-answer.js'
-import { DeleteAnswerUseCaseCase } from './delete-answer.js'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js'
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer.js'
+import { makeQuestion } from 'test/factories/make-question.js'
 
 // sut -> SYSTEM UNDER TEST
 
@@ -22,31 +22,39 @@ describe('Choose Question Best Answer', () => {
     )
   })
 
-  it('should be able to choose quye', async () => {
-    const newAnswer = makeAnswer({
-      authorId: new UniqueEntityId('author-1')
-    }, new UniqueEntityId('answer-1'))
+  it('should be able to choose the question answer', async () => {
+    const question = makeQuestion()
 
-    await inMemoryAnswersRepository.create(newAnswer)
-
-    await sut.execute({
-      answerId: 'answer-1',
-      authorId: 'author-1',
+    const answer = makeAnswer({
+      questionId: question.id
     })
 
-    expect(inMemoryAnswersRepository.items).toHaveLength(0)
+    await inMemoryQuestionsRepository.create(question)
+    await inMemoryAnswersRepository.create(answer)
+
+    await sut.execute({
+      answerId: answer.id.toString(),
+      authorId: question.authorId.toString(),
+    })
+
+    expect(inMemoryQuestionsRepository.items[0]?.bestAnswerId).toEqual(answer.id)
   })
 
-    it('should not be able to delete a answer from another user', async () => {
-    const newAnswer = makeAnswer({
+  it('should not be able to choose another user question best answer', async () => {
+    const question = makeQuestion({
       authorId: new UniqueEntityId('author-1')
-    }, new UniqueEntityId('answer-1'))
+    })  
 
-    await inMemoryAnswersRepository.create(newAnswer)
+    const answer = makeAnswer({
+      questionId: question.id,
+    })
+    
+    await inMemoryQuestionsRepository.create(question)
+    await inMemoryAnswersRepository.create(answer)
 
     expect(() => {
       return sut.execute({
-        answerId: 'answer-1',
+        answerId: answer.id.toString(),
         authorId: 'author-2',
       })
     }).rejects.toBeInstanceOf(Error)
